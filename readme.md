@@ -18,7 +18,7 @@ conda create -n DeFusion++ python=3.9
 conda install -r requirement.txt
 ```
 
-## Fast Testing
+## Testing
 
 1. Downloading the [pre-trained model]() and placing them in **./pretrained** .
 2. Run the following script for fusion testing:
