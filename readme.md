@@ -56,3 +56,14 @@ python selftrain.py -opt option/train/SelfTrained_SDatasetFast.yaml
 ```python
 python selftrain_multimodal.py -opt option/train/SelfTrained_MDatasetFast.yaml
 ```
+
+## Bib 
+If this repo help you, please cite us:
+```
+@article{liang2025fusion,
+  title={Fusion from decomposition: A self-supervised approach for image fusion and beyond},
+  author={Liang, Pengwei and Jiang, Junjun and Ma, Qing and Liu, Xianming and Ma, Jiayi},
+  journal={arXiv preprint arXiv:2410.12274},
+  year={2024}
+}
+```
