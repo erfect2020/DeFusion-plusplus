@@ -39,9 +39,9 @@ python test.py -opt option/test/MFF_TransformerTest_Dataset.yaml
 
 ### Training CUD
 
-1. `Construct pairs of degraded images and their corresponding high-quality version. (For example, '.\data\LOL\train\high' and '.\data\LOL\train\low' for low-light image enhancement)`
-2. Edite **./configs/Restoration.yml** for setting hyper-parameters.
-3. Run the following script for training the DRCDMs:
+1. Download [COCO](https://github.com/cocodataset/cocoapi): https://cocodataset.org/
+2. Put your training images into any floder and modify the `option/train/SelfTrained_SDataset.yaml' to retarget the path.
+3. Run the following script for training the DeFusion++:
 
 ```python
 ## for training DeFusion++ on the COCO dataset
@@ -50,7 +50,8 @@ python selftrain.py
 
 ## Training MCUD
 
-1. Run the following script to generate high quality reference images if high quality GTs are missing, such as normal visible images in the MSRS dataset:
+1. Download our pretrained MAE model on [FLIR]().
+2. Put pretrained model into any floder and modify the `option/train/SelfTrained_SDataset.yaml' to retarget the path.
 
 ```python
 python selftrain_multimodal.py
