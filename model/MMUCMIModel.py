@@ -2,7 +2,6 @@ import torch.nn as nn
 import torch
 from models.tinymim import tinymim_vit_tiny_patch16
 from models.models_mae import mae_vit_base_patch16
-# from timm.models.vision_transformer import PatchEmbed, Block
 from models.vit import Block
 from models.multiAtten import TransformerAttenBlockVpaper as AttenBlock
 import os
@@ -11,16 +10,14 @@ from utils.pos_embed import interpolate_pos_encoding
 from utils.pos_embed import get_2d_sincos_pos_embed
 
 
-class MUCMIMNetV3(nn.Module):
+class MUCMIMNet(nn.Module):
     def __init__(self):
-        super(MUCMIMNetV3, self).__init__()
+        super(MUCMIMNet, self).__init__()
         self.encoder = tinymim_vit_tiny_patch16()
 
         pretrained_ckpt = './TinyMIM-PT-Tstar.pth'
         pretrained_ckpt = os.path.expanduser(pretrained_ckpt)
         checkpoint = torch.load(pretrained_ckpt, map_location='cpu')
-        print("Load init checkpoint from: %s" % pretrained_ckpt)
-        print("check point ", checkpoint.keys())
         checkpoint = checkpoint['model']
         self.encoder.load_state_dict(checkpoint, strict=True)
 
@@ -33,31 +30,16 @@ class MUCMIMNetV3(nn.Module):
             model.load_state_dict(checkpoint, strict=False)
 
         self.model_encoder1 = mae_vit_base_patch16()
-        self.model_pth1 = '/home/lpw/fastssd/lpw/DeFusionv2/multimodalpth/maeir_100.pth'
+        self.model_pth1 = './multimodalpth/maeir_100.pth'
         load_ckpt(self.model_encoder1, self.model_pth1)
         self.model_encoder2 = mae_vit_base_patch16()
-        self.model_pth2 = '/home/lpw/fastssd/lpw/DeFusionv2/multimodalpth/mae_pretrain_vit_base.pth'
+        self.model_pth2 = './multimodalpth/mae_pretrain_vit_base.pth'
         load_ckpt(self.model_encoder2, self.model_pth2)
-        self.model_encoder3 = mae_vit_base_patch16()
-        self.model_pth3 = '/home/lpw/fastssd/lpw/DeFusionv2/multimodalpth/maect_100.pth'
-        load_ckpt(self.model_encoder3, self.model_pth3)
-        self.model_encoder4 = mae_vit_base_patch16()
-        self.model_pth4 = '/home/lpw/fastssd/lpw/DeFusionv2/multimodalpth/maemr_100.pth'
-        load_ckpt(self.model_encoder4, self.model_pth4)
 
         for _, p in self.model_encoder1.named_parameters():
             p.requires_grad = False
         for _, p in self.model_encoder2.named_parameters():
             p.requires_grad = False
-        for _, p in self.model_encoder3.named_parameters():
-            p.requires_grad = False
-        for _, p in self.model_encoder4.named_parameters():
-            p.requires_grad = False
-
-        # self.encoder.patch_embed.proj.stride = 8
-        # pos_embed = interpolate_pos_encoding(729, 192, self.encoder, 16, (8, 8), 224, 224)
-        # print("pos embed shape",pos_embed.shape)
-        # self.encoder.pos_embed = nn.Parameter(pos_embed, requires_grad=False)
 
         decoder_embed_dim = 192
         decoder_img_dim = 768
@@ -184,7 +166,7 @@ class MUCMIMNetV3(nn.Module):
 
     def forward(self, img1, img2, modality=None):
         # print("modality is", modality)
-        if modality == 'irvis' or modality == 'ctmr':
+        if modality == 'irvis':
             img1 = normalize(img1, self.normalize_mean, self.normalize_std)
             img2 = normalize(img2, self.normalize_mean, self.normalize_std)
 
@@ -195,9 +177,6 @@ class MUCMIMNetV3(nn.Module):
                 if modality == 'irvis':
                     modality_gt1 = self.model_encoder1(img1)
                     modality_gt2 = self.model_encoder2(img2)
-                elif modality == 'ctmr':
-                    modality_gt1 = self.model_encoder3(img1)
-                    modality_gt2 = self.model_encoder4(img2)
 
             residual_fea1 = self.enc_norm1(enc_feas1[0]) + self.enc_norm2(enc_feas1[1])
             residual_fea2 = self.enc_norm1(enc_feas2[0]) + self.enc_norm2(enc_feas2[1])
@@ -291,13 +270,8 @@ class MUCMIMNetV3(nn.Module):
             uni_img1 = uni_img1 + residual_uni_img1
 
             fuse_img = fuse_img + residual_fuse_img
-            # fuse_main = fuse_img
             rec_img = rec_img + residual_rec_img
-            #
-            # fuse_img = fuse_img + residual_fuse_img
 
-            # rec_img, ids_restore = self.random_masking(fuse_img[:, 1:, :], mask_ratio=0.75)
-            # rec_img = torch.cat([fuse_img[:,:1,:], rec_img], dim=1)
             for blk in self.recon_blocks_mim_encoder:
                 rec_img = blk(rec_img)
                 fuse_img = blk(fuse_img)
@@ -308,7 +282,7 @@ class MUCMIMNetV3(nn.Module):
                 uni_img1 = blk(uni_img1)
                 uni_img2 = blk(uni_img2)
 
-            # fuse_img = fuse_img + fuse_main
+            fuse_img = fuse_img + fuse_main
             for blk in self.decoder_fuse_blocks[1:]:
                 fuse_img = blk(fuse_img)
 
