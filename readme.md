@@ -39,19 +39,19 @@ python test.py -opt option/test/MFF_TransformerTest_Dataset.yaml
 ### Training CUD
 
 1. Download [COCO](https://github.com/cocodataset/cocoapi): https://cocodataset.org/
-2. Put your training images into any floder and modify the `option/train/SelfTrained_SDataset.yaml' to retarget the path.
+2. Put your training images into any floder and modify the `option/train/SelfTrained_SDatasetFast.yaml' to retarget the path.
 3. Run the following script for training the DeFusion++:
 
 ```python
 ## for training DeFusion++ on the COCO dataset
-python selftrain.py
+python selftrain.py -opt option/train/SelfTrained_SDatasetFast.yaml
 ```
 
 ## Training MCUD
 
 1. Download our pretrained MAE model on [FLIR]() and pretrained MAE model on [ImageNet]().
-2. Put pretrained model into any floder and modify the `option/train/SelfTrained_SDataset.yaml' to retarget the path.
+2. Put the pretrained models into any folder and modify `option/train/SelfTrained_MDatasetFast.yaml` to update the path.
 
 ```python
-python selftrain_multimodal.py
+python selftrain_multimodal.py -opt option/train/SelfTrained_MDatasetFast.yaml
 ```
