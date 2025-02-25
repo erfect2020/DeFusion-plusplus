@@ -1,13 +1,13 @@
-name: SelftrainedFinal_ablav3
+name: SelftrainedFinal
 use_tb_logger: true
-model: UCMConv # reconstruct Camera response function network
+model: UCMConv
 
 dataset:
   train:
     name: train
     dataroot: ~/Documents/fusion-dataset/coco-dataset/
     filter:
-    trainpairs: data/self_train_grid_noaug_data.txt
+    trainpairs: data/self_train_grid_data.txt
     extra_data: ~/Documents/fusion-dataset/DNIM/Image/
     batch_size: 16
     image_size: 224
@@ -38,7 +38,7 @@ path:
 
 logger:
   print_freq: 10
-  save_checkpoint_freq: 2 #!!float 5e3
+  save_checkpoint_freq: 2 
 
 train:
   lr: !!float 4e-4
@@ -52,6 +52,6 @@ train:
   lr_steps: [20, 40, 45, 47]
   lr_gamma: 0.5
 
-  val_freq: 3 #!!float 5e3
-  kernel_freq: 1 #!!float 5e3
+  val_freq: 3 
+  kernel_freq: 1 
   manual_seed: 1
