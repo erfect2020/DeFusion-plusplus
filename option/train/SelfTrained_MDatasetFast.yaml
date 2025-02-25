@@ -1,6 +1,6 @@
-name: MultiModalFastMV5_abla
+name: MultiModalFastM
 use_tb_logger: true
-model: MUCMTransformer # reconstruct Camera response function network
+model: MUCMTransformer
 
 dataset:
   train:
@@ -20,11 +20,6 @@ dataset:
     infrare_name: train/ir/
     visible_name: train/vi/
     irvis_trainpairs: data/irvis_train_data.txt
-
-    ctmr_dataroot: ~/Documents/fusion-dataset/CT-MRI/
-    ct_name: CT
-    mr_name: MRI
-    ctmr_trainpairs: data/ctmr_train_data.txt
 
   val:
     name: val
