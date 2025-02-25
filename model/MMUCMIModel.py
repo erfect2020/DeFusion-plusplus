@@ -15,13 +15,6 @@ class MUCMIMNet(nn.Module):
         super(MUCMIMNet, self).__init__()
         self.encoder = tinymim_vit_tiny_patch16()
 
-        pretrained_ckpt = './TinyMIM-PT-Tstar.pth'
-        pretrained_ckpt = os.path.expanduser(pretrained_ckpt)
-        checkpoint = torch.load(pretrained_ckpt, map_location='cpu')
-        checkpoint = checkpoint['model']
-        self.encoder.load_state_dict(checkpoint, strict=True)
-
-
         def load_ckpt(model, pth):
             pretrained_ckpt = os.path.expanduser(pth)
             checkpoint = torch.load(pretrained_ckpt, map_location='cpu')
