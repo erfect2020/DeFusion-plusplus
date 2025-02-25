@@ -1,0 +1,30 @@
+name: MultiExposureFusionS_TEST_18
+use_tb_logger: false
+model: FusionModel
+
+dataset:
+  test:
+    name: test
+    dataroot:  ~/Documents/fusion-dataset/OVDataset
+    batch_size: 1
+    img_size: 256
+    workers: 1
+    part_name: Dataset_Part2
+
+
+network_G:
+  in_nc: 3
+  block_num: 2
+  init: xavier
+  hidden_channels: 128
+  K: 4
+
+path:
+  pretrain_model_G: ~
+  strict_load: true
+  resume_state: /home/lpw/fastssd/lpw/DeFusionv2/experiments/SelftrainedFinalFastV3_trained/models/18_models.pth
+  pretrained_models_state: /home/lpw/Documents/multi-exposure/SelfSupervisedFusion/experiments/BestPretrainedModel/models/4_models.pth
+
+logger:
+  print_freq: 10
+  save_checkpoint_freq: 20 #!!float 5e3

@@ -1,0 +1,25 @@
+dataset:
+  test:
+    batch_size: 1
+    dataroot: ~/Documents/fusion-dataset/ResultsMFIF #/MFIF/input #
+    datashell: MFF
+    image_size: 256
+    name: test
+    part_name: .
+    workers: 1
+logger:
+  print_freq: 10
+  save_checkpoint_freq: 20
+model: FusionModel
+name: MultiFocusFusion_Rebuttal_showmff_21
+network_G:
+  K: 4
+  block_num: 2
+  hidden_channels: 128
+  in_nc: 3
+  init: xavier
+path:
+  pretrain_model_G: null
+  resume_state: /home/lpw/fastssd/lpw/DeFusionv2/experiments/SelftrainedFinalFastV9/models/60_models.pth # SelftrainedFinal_radio100v2/models/50_models.pth
+  strict_load: true
+use_tb_logger: false

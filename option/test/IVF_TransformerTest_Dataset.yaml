@@ -1,0 +1,26 @@
+dataset:
+  test:
+    batch_size: 1
+    dataroot: ~/Documents/fusion-dataset/RoadScene
+    datashell: IVF
+    infrare_name: cropinfrared
+    name: test
+    visible_name: crop_LR_visible
+    workers: 1
+logger:
+  print_freq: 10
+  save_checkpoint_freq: 20
+model: FusionModel
+name: VisibleInfrareFusion_TransformerTEST_RoadScene_40
+network_G:
+  K: 4
+  block_num: 2
+  hidden_channels: 128
+  in_nc: 3
+  init: xavier
+path:
+  pretrain_model_G: null
+  pretrained_models_state: /home/lpw/Documents/multi-exposure/SelfSupervisedFusion/experiments/BestPretrainedModel/models/9_models.pth
+  resume_state: /home/lpw/fastssd/lpw/DeFusionv2/experiments//MultiModalFastMV5/models/40_models.pth #MultiModalFast/models/55_models.pth
+  strict_load: true
+use_tb_logger: false
