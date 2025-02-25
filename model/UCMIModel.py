@@ -10,9 +10,9 @@ from utils.pos_embed import interpolate_pos_encoding
 from utils.pos_embed import get_2d_sincos_pos_embed
 
 
-class UCMIMNetV3(nn.Module):
+class UCMIMNet(nn.Module):
     def __init__(self):
-        super(UCMIMNetV3, self).__init__()
+        super(UCMIMNet, self).__init__()
         self.encoder = tinymim_vit_tiny_patch16()
         pretrained_ckpt = './TinyMIM-PT-Tstar.pth'
         pretrained_ckpt = os.path.expanduser(pretrained_ckpt)
@@ -21,10 +21,6 @@ class UCMIMNetV3(nn.Module):
         print("check point ", checkpoint.keys())
         checkpoint = checkpoint['model']
         self.encoder.load_state_dict(checkpoint, strict=True)
-        # self.encoder.patch_embed.proj.stride = 8
-        # pos_embed = interpolate_pos_encoding(729, 192, self.encoder, 16, (8, 8), 224, 224)
-        # print("pos embed shape",pos_embed.shape)
-        # self.encoder.pos_embed = nn.Parameter(pos_embed, requires_grad=False)
 
         decoder_embed_dim = 192
         decoder_img_dim = 768
@@ -104,12 +100,6 @@ class UCMIMNetV3(nn.Module):
         ids_keep = ids_shuffle[:, :len_keep]
         x_masked = torch.gather(x, dim=1, index=ids_keep.unsqueeze(-1).repeat(1, 1, D))
 
-        # # generate the binary mask: 0 is keep, 1 is remove
-        # mask = torch.ones([N, L], device=x.device)
-        # mask[:, :len_keep] = 0
-        # # unshuffle to get the binary mask
-        # mask = torch.gather(mask, dim=1, index=ids_restore)
-
         return x_masked,  ids_restore, ids_keep
 
     def align_masking(self, x, ids_keep):
@@ -161,9 +151,6 @@ class UCMIMNetV3(nn.Module):
             com_img = self.decoder_common_blocks[0](enc_fea2, enc_fea1)
             residual_com_img = self.decode_common_skipconn(residual_fea2, residual_fea1)
 
-        # f torch.rand(1).item() > 0.5 else self.decoder_common_blocks[0](enc_fea2, enc_fea1)
-        # residual_com_img = self.decode_common_skipconn(residual_fea1,residual_fea2) + self.decode_common_skipconn(residual_fea2,residual_fea1)
-
         uni_img2 = self.decoder_unique_blocks[0](enc_fea1, enc_fea2) + self.decoder_unique_residual(enc_fea2)
         residual_uni_img2 = self.decoder_unique_skipconn(residual_fea1, residual_fea2) + self.decoder_unique_residual_skipconn(residual_fea2)
 
@@ -201,10 +188,7 @@ class UCMIMNetV3(nn.Module):
         fuse_main = fuse_img
         rec_img = rec_img + residual_rec_img
         #
-        # fuse_img = fuse_img + residual_fuse_img
 
-        # rec_img, ids_restore = self.random_masking(fuse_img[:, 1:, :], mask_ratio=0.75)
-        # rec_img = torch.cat([fuse_img[:,:1,:], rec_img], dim=1)
         for blk in self.recon_blocks_mim_encoder:
             rec_img = blk(rec_img)
             fuse_img = blk(fuse_img)
@@ -216,7 +200,6 @@ class UCMIMNetV3(nn.Module):
             uni_img2 = blk(uni_img2)
 
         fuse_img = fuse_img + fuse_main
-        # fuse_img = residual_fuse_img
         for blk in self.decoder_fuse_blocks[1:]:
             fuse_img = blk(fuse_img)
 
