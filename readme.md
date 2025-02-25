@@ -48,7 +48,7 @@ python test.py -opt option/test/MFF_TransformerTest_Dataset.yaml
 python selftrain.py -opt option/train/SelfTrained_SDatasetFast.yaml
 ```
 
-## Training MCUD
+### Training MCUD
 
 1. Download our pretrained MAE model on [FLIR]() and pretrained MAE model on [ImageNet]().
 2. Put the pretrained models into any folder and modify `option/train/SelfTrained_MDatasetFast.yaml` to update the path.
