@@ -31,7 +31,7 @@ python test.py -opt option/test/MEF_TransformerTest_Dataset.yaml
 ## for MFF image fusion
 python test.py -opt option/test/MFF_TransformerTest_Dataset.yaml
 ```
-3. Change the data loader in test.py to load test datasets in different formats.
+3. Change the data loader in `test.py` to load test datasets in different formats.
 
 
 
