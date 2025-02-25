@@ -40,7 +40,7 @@ python test.py -opt option/test/MFF_TransformerTest_Dataset.yaml
 ### Training CUD
 
 1. Download [COCO](https://github.com/cocodataset/cocoapi): https://cocodataset.org/
-2. Put your training images into any floder and modify the dataroot in `option/train/SelfTrained_SDatasetFast.yaml' to retarget the path.
+2. Put your training images into any floder and modify the dataroot in `option/train/SelfTrained_SDatasetFast.yaml` to retarget the path.
 3. Run the following script for training the DeFusion++:
 
 ```python
