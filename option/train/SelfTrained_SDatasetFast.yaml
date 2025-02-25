@@ -1,0 +1,57 @@
+name: SelftrainedFinal_ablav3
+use_tb_logger: true
+model: UCMConv # reconstruct Camera response function network
+
+dataset:
+  train:
+    name: train
+    dataroot: ~/Documents/fusion-dataset/coco-dataset/
+    filter:
+    trainpairs: data/self_train_grid_noaug_data.txt
+    extra_data: ~/Documents/fusion-dataset/DNIM/Image/
+    batch_size: 16
+    image_size: 224
+    max_iter: 40
+    iter_size: 1
+    workers: 4
+    train_name: train2017
+    debug: true
+
+  val:
+    name: val
+    dataroot: ~/Documents/fusion-dataset/MEFB-dataset
+    batch_size: 1
+    workers: 1
+    input_name: input
+
+network_G:
+  in_nc: 3
+  block_num: 2
+  init: xavier
+  hidden_channels: 128
+  K: 4
+
+path:
+  pretrain_model_G: ~
+  strict_load: true
+  resume_state: ~
+
+logger:
+  print_freq: 10
+  save_checkpoint_freq: 2 #!!float 5e3
+
+train:
+  lr: !!float 4e-4
+  beta1: 0.9
+  beta2: 0.999
+  max_grad_norm: 20
+  max_grad_clip: 20
+  niter: 500000
+  epoch: 50
+
+  lr_steps: [20, 40, 45, 47]
+  lr_gamma: 0.5
+
+  val_freq: 3 #!!float 5e3
+  kernel_freq: 1 #!!float 5e3
+  manual_seed: 1
