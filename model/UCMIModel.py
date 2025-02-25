@@ -14,13 +14,6 @@ class UCMIMNet(nn.Module):
     def __init__(self):
         super(UCMIMNet, self).__init__()
         self.encoder = tinymim_vit_tiny_patch16()
-        pretrained_ckpt = './TinyMIM-PT-Tstar.pth'
-        pretrained_ckpt = os.path.expanduser(pretrained_ckpt)
-        checkpoint = torch.load(pretrained_ckpt, map_location='cpu')
-        print("Load init checkpoint from: %s" % pretrained_ckpt)
-        print("check point ", checkpoint.keys())
-        checkpoint = checkpoint['model']
-        self.encoder.load_state_dict(checkpoint, strict=True)
 
         decoder_embed_dim = 192
         decoder_img_dim = 768
