@@ -51,7 +51,8 @@ python selftrain.py -opt option/train/SelfTrained_SDatasetFast.yaml
 ### Training MCUD
 
 1. Download our pretrained MAE model on [FLIR]() and pretrained MAE model on [ImageNet]().
-2. Put the pretrained models into any folder and modify `option/train/SelfTrained_MDatasetFast.yaml` to update the path.
+2. Modify the path of pretrained model in `models/MM.py`
+3. Put the training images (COCO/VIF dataset) into any folder and modify the parameter `noise_dataroot, irvis_dataroot` in `option/train/SelfTrained_MDatasetFast.yaml` to update the path.
 
 ```python
 python selftrain_multimodal.py -opt option/train/SelfTrained_MDatasetFast.yaml
