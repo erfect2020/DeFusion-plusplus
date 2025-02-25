@@ -49,7 +49,7 @@ python selftrain.py
 
 ## Training MCUD
 
-1. Download our pretrained MAE model on [FLIR]().
+1. Download our pretrained MAE model on [FLIR]() and pretrained MAE model on [ImageNet]().
 2. Put pretrained model into any floder and modify the `option/train/SelfTrained_SDataset.yaml' to retarget the path.
 
 ```python
