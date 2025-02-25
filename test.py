@@ -3,11 +3,10 @@ from utils import  util
 from data.multi_exposure_dataset import TestDataset as MEFTestDataset
 from data.multi_focus_dataset import TestDataset as MFFTestDataset
 from data.visir_fusion_dataset import TestDataset as IVFTestDataset
-# from data.multi_focus_dataset import TestMFFDataset as MFFTestDataset #/home/lpw/fastssd/lpw/DeFusionv2/experiments/SelftrainedFinalFastV9/models/40_models.pth
+# from data.multi_focus_dataset import TestMFFDataset as MFFTestDataset
 # from data.visir_fusion_dataset import TestDataset
 # from data.visir_fusion_dataset import TestTNODataset as IVFTestDataset
 from torch.utils.data import DataLoader
-from models.UCMIModelTestV3  import UCMIMNetTestV3
 from models.MUCMIModelTestV3 import MUCMIMNetTestV3
 from tqdm import tqdm
 from torchvision.transforms import ToPILImage
