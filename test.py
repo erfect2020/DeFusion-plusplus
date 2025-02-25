@@ -7,7 +7,7 @@ from data.visir_fusion_dataset import TestDataset as IVFTestDataset
 # from data.visir_fusion_dataset import TestDataset
 # from data.visir_fusion_dataset import TestTNODataset as IVFTestDataset
 from torch.utils.data import DataLoader
-from models.MUCMIModelTestV3 import MUCMIMNetTestV3
+from models.MUCMIModelTest import MUCMIMNetTest
 from tqdm import tqdm
 from torchvision.transforms import ToPILImage
 import os
@@ -15,9 +15,6 @@ import torch
 import option.options as option
 import logging
 import torch.nn.functional as F
-
-# from models.MUCMIModelTestV3 import MUCMIMNetTestV3
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-opt', type=str, required=True, help='Multi Data Fusion: Path to option ymal file.')
@@ -53,8 +50,7 @@ test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False,
 logger.info('Number of test images in [{:s}]: {:d}'.format(dataset_opt['name'], len(test_dataset)))
 
 
-model = UCMIMNetTestV3()
-# model = MUCMIMNetTestV3()
+model = MUCMIMNetTest()
 
 device_id = torch.cuda.current_device()
 resume_state = torch.load(opt['path']['resume_state'],
