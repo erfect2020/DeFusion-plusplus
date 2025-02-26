@@ -20,7 +20,7 @@ network_G:
   init: xavier
 path:
   pretrain_model_G: null
-  pretrained_models_state: /home/lpw/Documents/multi-exposure/SelfSupervisedFusion/experiments/BestPretrainedModel/models/9_models.pth
-  resume_state: /home/lpw/fastssd/lpw/DeFusionv2/experiments//MultiModalFastMV5/models/40_models.pth #MultiModalFast/models/55_models.pth
+  pretrained_models_state: /home
+  resume_state: /home/xxx/pretrained/DeFusion++.pth
   strict_load: true
 use_tb_logger: false
