@@ -10,7 +10,7 @@ logger:
   print_freq: 10
   save_checkpoint_freq: 20
 model: FusionModel
-name: MEFB
+name: MEF_MEFB
 network_G:
   K: 4
   block_num: 2
