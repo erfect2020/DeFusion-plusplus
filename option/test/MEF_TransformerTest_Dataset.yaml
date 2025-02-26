@@ -10,7 +10,7 @@ logger:
   print_freq: 10
   save_checkpoint_freq: 20
 model: FusionModel
-name: MEF_Rebuttal_radio10_12
+name: MEFB
 network_G:
   K: 4
   block_num: 2
@@ -19,8 +19,8 @@ network_G:
   init: xavier
 path:
   pretrain_model_G: null
-  pretrained_models_state: /home/lpw/Documents/multi-exposure/SelfSupervisedFusion/experiments/BestPretrainedModel/models/4_models.pth
-  resume_state: /home/lpw/fastssd/lpw/DeFusionv2/experiments/SelftrainedFinal_radio10v2/models/12_models.pth #SelftrainedFinal_
+  pretrained_models_state: /home/xxx
+  resume_state: /home/xxx/pretrained/DeFusion++.pth
   strict_load: true
 use_tb_logger: false
 
